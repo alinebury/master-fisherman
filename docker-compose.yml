@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  frontend: # Nome do container
+    depends_on: 
+      - backend
+    build: ./frontend # Contruir de acordo com o diretorio 
+    ports: # Qual porta usar (deve ser a mesma porta do dockerfile)
+      - 8080:8080
+    volumes:
+      - ./frontend:/app
+
+  backend: 
+    depends_on: 
+      - db
+    build: ./backend
+    ports: 
+      - 3001:3001
+    volumes:
+      - ./backend:/app
+
+  db:
+    image: mongo # Imagem do mongoDB
+    ports:
+      - 27017:27017
+    volumes: # Nome do volume : diretorio dentro do container
+      - master_fisherman:/data/db
+
+volumes: # Dados armazenados os dados dentro do container serao armazenados no volume
+  master_fisherman:
